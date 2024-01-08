@@ -1,0 +1,6 @@
+@FlatWeb_HostAddress = http://localhost:5007
+
+GET {{FlatWeb_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
