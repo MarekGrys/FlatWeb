@@ -10,7 +10,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<FlatWebDbContext>();
-builder.Services.AddScoped<FlatWebSeeder>();  
+builder.Services.AddScoped<FlatWebSeeder>();
+builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
 var app = builder.Build();
 

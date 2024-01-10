@@ -1,6 +1,9 @@
-﻿using FlatWeb.Entities;
+﻿using AutoMapper;
+using FlatWeb.Entities;
+using FlatWeb.Models;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace FlatWeb.Controllers
 {
@@ -8,32 +11,39 @@ namespace FlatWeb.Controllers
     public class FlatController : ControllerBase
     {
         private readonly FlatWebDbContext _dbContext;
+        private readonly IMapper _mapper;
 
-        public FlatController(FlatWebDbContext dbContext)
+        public FlatController(FlatWebDbContext dbContext, IMapper mapper)
         {
             _dbContext = dbContext;
+            _mapper = mapper;
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<Flat>> GetAll()
+        public ActionResult<IEnumerable<FlatDto>> GetAll()
         {
-            var flats = _dbContext.Flats.ToList();
+            var flats = _dbContext.Flats.Include(r=>r.Address).ToList();
 
-            return Ok(flats);
+
+            var flatsDto = _mapper.Map<List<FlatDto>>(flats);
+
+            return Ok(flatsDto);
 
         }
 
         [HttpGet("{id}")]
         public ActionResult<Flat> Get([FromRoute]int id)
         {
-            var flats = _dbContext.Flats.FirstOrDefault(x => x.Id == id);
+            var flat = _dbContext.Flats.Include(r => r.Address).FirstOrDefault(x => x.Id == id);
 
-            if(flats == null)
+            if(flat == null)
             {
                 return NotFound();
             }
 
-            return Ok(flats);
+            var flatDto = _mapper.Map<FlatDto>(flat);
+
+            return Ok(flatDto);
         }
     }
 }
