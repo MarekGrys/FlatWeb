@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using FlatWeb.Entities;
 using FlatWeb.Models;
+using FlatWeb.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,23 +11,18 @@ namespace FlatWeb.Controllers
     public class AddressController : ControllerBase
     {
 
-        private readonly FlatWebDbContext _dbContext;
-        private readonly IMapper _mapper;
+        private readonly IAddressService _addressService;
 
-        public AddressController(FlatWebDbContext dbContext, IMapper mapper)
+        public AddressController(IAddressService addressService)
         {
-            _dbContext = dbContext;
-            _mapper = mapper;
+            _addressService = addressService;
         }
 
 
         [HttpGet]
         public ActionResult<IEnumerable<Address>> GetAll()
         {
-            var addresses = _dbContext.Addresses.ToList();
-
-
-            //var flatsDto = _mapper.Map<List<FlatDto>>(flats);
+            var addresses = _addressService.GetAddresses();
 
             return Ok(addresses);
         }
@@ -34,13 +30,16 @@ namespace FlatWeb.Controllers
         [HttpGet("{id}")]
         public ActionResult<Address> Get([FromRoute] int id)
         {
-            var address = _dbContext.Addresses.FirstOrDefault(x => x.Id == id);
-
-            if (address == null)
+            try
             {
-                return NotFound();
+                var address = _addressService.GetAddress(id);
+                return Ok(address);
             }
-            return Ok(address);
+            catch (Exception ex)
+            {
+
+                return NotFound(ex);
+            }
         }
     }
 }

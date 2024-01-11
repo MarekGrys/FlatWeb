@@ -14,6 +14,8 @@ builder.Services.AddDbContext<FlatWebDbContext>();
 builder.Services.AddScoped<FlatWebSeeder>();
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 builder.Services.AddScoped<IFlatService, FlatService>();
+builder.Services.AddScoped<IAddressService, AddressService>();
+builder.Services.AddScoped<IUserService, UserService>();
 
 var app = builder.Build();
 
