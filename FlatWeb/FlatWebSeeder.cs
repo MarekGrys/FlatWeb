@@ -20,7 +20,6 @@ namespace FlatWeb
                     var users = GetUsers();
                     _dbContext.Users.AddRange(users);
                     _dbContext.SaveChanges();
-
                 }
             }
         }
@@ -154,12 +153,9 @@ namespace FlatWeb
                     Surname = "Hubert",
                     PhoneNumber = "098712345",
                     Email = "Huberthubert@hubert.pl",
-
                 }
-
             };
             return users;
-            
         }
     }
 }

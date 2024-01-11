@@ -1,5 +1,6 @@
 using FlatWeb;
 using FlatWeb.Entities;
+using FlatWeb.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +13,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<FlatWebDbContext>();
 builder.Services.AddScoped<FlatWebSeeder>();
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
+builder.Services.AddScoped<IFlatService, FlatService>();
 
 var app = builder.Build();
 

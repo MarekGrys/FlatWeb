@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using FlatWeb.Entities;
 using FlatWeb.Models;
+using FlatWeb.Services;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -10,22 +11,17 @@ namespace FlatWeb.Controllers
     [Route("api/flats")]
     public class FlatController : ControllerBase
     {
-        private readonly FlatWebDbContext _dbContext;
-        private readonly IMapper _mapper;
 
-        public FlatController(FlatWebDbContext dbContext, IMapper mapper)
+        private readonly IFlatService _flatService;
+        public FlatController(IFlatService flatService)
         {
-            _dbContext = dbContext;
-            _mapper = mapper;
+            _flatService = flatService;
         }
 
         [HttpGet]
         public ActionResult<IEnumerable<FlatDto>> GetAll()
         {
-            var flats = _dbContext.Flats.Include(r=>r.Address).ToList();
-
-
-            var flatsDto = _mapper.Map<List<FlatDto>>(flats);
+            var flatsDto = _flatService.GetAll();
 
             return Ok(flatsDto);
 
@@ -34,16 +30,24 @@ namespace FlatWeb.Controllers
         [HttpGet("{id}")]
         public ActionResult<Flat> Get([FromRoute]int id)
         {
-            var flat = _dbContext.Flats.Include(r => r.Address).FirstOrDefault(x => x.Id == id);
-
-            if(flat == null)
+            try
             {
-                return NotFound();
+                var flatDto = _flatService.GetOne(id);
+                return Ok(flatDto);
             }
+            catch (Exception ex)
+            {
 
-            var flatDto = _mapper.Map<FlatDto>(flat);
+                return NotFound(ex.Message);
+            }       
+        }
 
-            return Ok(flatDto);
+        [HttpPost]
+        public ActionResult CreateFlat([FromBody] FlatDto dto)
+        {
+            var newFlatID = _flatService.CreateFlat(dto);
+
+            return Created($"api/flats/{newFlatID}", null);
         }
     }
 }
