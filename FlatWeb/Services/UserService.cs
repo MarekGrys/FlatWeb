@@ -9,6 +9,7 @@ namespace FlatWeb.Services
     public interface IUserService
     {
         int CreateUser([FromBody] CreateUserDto dto);
+        void DeleteUser(int id);
         CreateUserDto GetOneUser(int id);
         List<CreateUserDto> GetUsers();
         void UpdateUser(int id, CreateUserDto updateUser);
@@ -72,6 +73,17 @@ namespace FlatWeb.Services
             user.PhoneNumber = updateUser.PhoneNumber;
             user.Email = updateUser.Email;
 
+            _dbContext.SaveChanges();
+        }
+
+        public void DeleteUser(int id)
+        {
+            var user = _dbContext.Users.Find(id);
+
+            if (user == null)
+                throw new Exception("Nie ma!");
+
+            _dbContext.Users.Remove(user);
             _dbContext.SaveChanges();
         }
     }

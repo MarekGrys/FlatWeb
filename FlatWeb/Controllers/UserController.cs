@@ -67,5 +67,20 @@ namespace FlatWeb.Controllers
                 return NotFound(ex);
             }
         }
+
+        [HttpDelete("{id}")]
+        public ActionResult DeleteUser([FromRoute] int id)
+        {
+            try
+            {
+                _userService.DeleteUser(id);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+
+                return NotFound(ex);
+            }
+        }
     }
 }
