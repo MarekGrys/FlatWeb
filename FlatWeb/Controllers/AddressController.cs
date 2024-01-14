@@ -41,5 +41,20 @@ namespace FlatWeb.Controllers
                 return NotFound(ex);
             }
         }
+
+        [HttpPut("{id}")]
+        public ActionResult UpdateAddress([FromRoute] int id, [FromBody] UpdateAddress address)
+        {
+            try
+            {
+                _addressService.UpdateAddress(id, address);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+
+                return NotFound(ex);
+            }
+        }
     }
 }

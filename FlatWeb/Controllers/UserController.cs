@@ -52,5 +52,20 @@ namespace FlatWeb.Controllers
                 return NotFound(ex);
             }
         }
+
+        [HttpPut("{id}")]
+        public ActionResult UpdateUser([FromRoute]int id,[FromBody] CreateUserDto dto)
+        {
+            try
+            {
+                _userService.UpdateUser(id, dto);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+
+                return NotFound(ex);
+            }
+        }
     }
 }

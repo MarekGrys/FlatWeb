@@ -49,5 +49,20 @@ namespace FlatWeb.Controllers
 
             return Created($"api/flats/{newFlatID}", null);
         }
+
+        [HttpPut("{id}")]
+        public ActionResult UpdateFlat([FromRoute] int id, [FromBody] UpdateFlat flat) 
+        {
+            try
+            {
+                _flatService.UpdateFlat(id, flat);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+
+                return NotFound(ex);
+            }
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using FlatWeb.Entities;
+using FlatWeb.Models;
 
 namespace FlatWeb.Services
 {
@@ -7,6 +8,7 @@ namespace FlatWeb.Services
     {
         Address GetAddress(int id);
         List<Address> GetAddresses();
+        void UpdateAddress(int id, UpdateAddress updateAddress);
     }
 
     public class AddressService : IAddressService
@@ -38,6 +40,22 @@ namespace FlatWeb.Services
             }
 
             return address;
+        }
+
+        public void UpdateAddress(int id, UpdateAddress updateAddress)
+        {
+            var address = _dbContext.Addresses.Find(id);
+
+            if (address == null)
+                throw new Exception();
+
+            address.Street = updateAddress.Street;
+            address.StreetNumber = updateAddress.StreetNumber;
+            address.City = updateAddress.City;
+            address.FlatNumber = updateAddress.FlatNumber;
+            address.PostalCode = updateAddress.PostalCode;
+
+            _dbContext.SaveChanges();
         }
     }
 }

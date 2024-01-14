@@ -11,6 +11,7 @@ namespace FlatWeb.Services
         int CreateFlat(FlatDto dto);
         List<FlatDto> GetAll();
         FlatDto GetOne(int id);
+        void UpdateFlat(int id, UpdateFlat updateFlat);
     }
 
     public class FlatService : IFlatService
@@ -81,6 +82,22 @@ namespace FlatWeb.Services
             _dbContext.SaveChanges();
 
             return flat.Id;
+        }
+
+        public void UpdateFlat(int id, UpdateFlat updateFlat)
+        {
+            var flat = _dbContext.Flats.Find(id);
+
+            if(flat==null)
+                throw new Exception();
+
+            flat.SquareMetrage = updateFlat.SquareMetrage;
+            flat.RoomQuantity = updateFlat.RoomQuantity;
+            flat.FloorNumber = updateFlat.FloorNumber;
+            flat.Price = updateFlat.Price;
+            flat.Description = updateFlat.Description;
+
+            _dbContext.SaveChanges();
         }
     }
 }

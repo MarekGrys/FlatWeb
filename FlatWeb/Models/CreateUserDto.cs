@@ -14,5 +14,6 @@ namespace FlatWeb.Models
         public string Surname { get; set; }
         [Required]
         public string PhoneNumber { get; set; }
+        public string? Email { get; set; }
     }
 }

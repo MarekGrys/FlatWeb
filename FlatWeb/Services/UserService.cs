@@ -11,6 +11,7 @@ namespace FlatWeb.Services
         int CreateUser([FromBody] CreateUserDto dto);
         CreateUserDto GetOneUser(int id);
         List<CreateUserDto> GetUsers();
+        void UpdateUser(int id, CreateUserDto updateUser);
     }
 
     public class UserService : IUserService
@@ -55,6 +56,23 @@ namespace FlatWeb.Services
             var result = _mapper.Map<CreateUserDto>(user);
 
             return result;
+        }
+
+        public void UpdateUser(int id, CreateUserDto updateUser)
+        {
+            var user = _dbContext.Users.Find(id);
+
+            if (user == null)
+                throw new Exception("Nie ma!");
+
+            user.Login = updateUser.Login;
+            user.Password = updateUser.Password;
+            user.Name = updateUser.Name;
+            user.Surname = updateUser.Surname;
+            user.PhoneNumber = updateUser.PhoneNumber;
+            user.Email = updateUser.Email;
+
+            _dbContext.SaveChanges();
         }
     }
 }
