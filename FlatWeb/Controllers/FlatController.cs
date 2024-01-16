@@ -61,7 +61,22 @@ namespace FlatWeb.Controllers
             catch (Exception ex)
             {
 
-                return NotFound(ex);
+                return NotFound(ex.Message);
+            }
+        }
+
+        [HttpDelete("{id}")]
+        public ActionResult DeleteFlat([FromRoute] int id)
+        {
+            try
+            {
+                _flatService.DeleteFlat(id);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+
+                return NotFound(ex.Message);
             }
         }
     }

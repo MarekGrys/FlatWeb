@@ -38,7 +38,7 @@ namespace FlatWeb.Controllers
             catch (Exception ex)
             {
 
-                return NotFound(ex);
+                return NotFound(ex.Message);
             }
         }
 
@@ -53,7 +53,7 @@ namespace FlatWeb.Controllers
             catch (Exception ex)
             {
 
-                return NotFound(ex);
+                return NotFound(ex.Message);
             }
         }
     }

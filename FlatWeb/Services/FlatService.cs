@@ -9,6 +9,7 @@ namespace FlatWeb.Services
     public interface IFlatService
     {
         int CreateFlat(FlatDto dto);
+        void DeleteFlat(int id);
         List<FlatDto> GetAll();
         FlatDto GetOne(int id);
         void UpdateFlat(int id, UpdateFlat updateFlat);
@@ -97,6 +98,19 @@ namespace FlatWeb.Services
             flat.Price = updateFlat.Price;
             flat.Description = updateFlat.Description;
 
+            _dbContext.SaveChanges();
+        }
+
+        public void DeleteFlat(int id)
+        {
+            var flat = _dbContext.Flats.FirstOrDefault(x => x.Id == id);
+            var address = _dbContext.Addresses.FirstOrDefault(x => x.Id == flat.AddressID);
+            
+            if(flat==null || address==null)
+                throw new Exception("Nie ma!");
+            
+            _dbContext.Remove(flat);
+            _dbContext.Remove(address);
             _dbContext.SaveChanges();
         }
     }
