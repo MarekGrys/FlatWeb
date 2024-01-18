@@ -2,12 +2,14 @@
 using FlatWeb.Entities;
 using FlatWeb.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 
 namespace FlatWeb.Services
 {
 
     public interface IUserService
     {
+        void AddToFavourites(int userID, int flatID);
         int CreateUser([FromBody] CreateUserDto dto);
         void DeleteUser(int id);
         CreateUserDto GetOneUser(int id);
@@ -84,6 +86,24 @@ namespace FlatWeb.Services
                 throw new Exception("Nie ma!");
 
             _dbContext.Users.Remove(user);
+            _dbContext.SaveChanges();
+        }
+
+        public void AddToFavourites(int userID, int flatID)
+        {
+            var user = _dbContext.Users.FirstOrDefault(x=>x.Id == userID);
+            if (user == null)
+                throw new Exception("Brak!");
+
+
+            var favouritesList = new List<string>();
+            if(!user.Favourites.IsNullOrEmpty())
+                favouritesList = user.Favourites.Split(',').ToList();
+            
+            if (favouritesList.Any(x => x == flatID.ToString()))
+                throw new Exception("Już jest w ulubionych!");
+
+            user.Favourites += $"{flatID},";
             _dbContext.SaveChanges();
         }
     }

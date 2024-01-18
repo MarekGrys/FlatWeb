@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Reflection.Metadata;
 
 namespace FlatWeb.Entities
 {
@@ -17,7 +18,7 @@ namespace FlatWeb.Entities
         public string PhoneNumber { get; set; }
         public string? Email { get; set; }
 
-        //public virtual ICollection<Flat> FavouriveFlats { get; set; }
+        public string? Favourites { get; set; }
 
         public virtual ICollection<Flat> Flats { get; set; }
 

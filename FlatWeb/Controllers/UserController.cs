@@ -82,5 +82,20 @@ namespace FlatWeb.Controllers
                 return NotFound(ex.Message);
             }
         }
+
+        [HttpPatch("{userID}")]
+        public ActionResult AddToFavourives([FromRoute] int userID, [FromQuery] int flatID)
+        {
+            try
+            {
+                _userService.AddToFavourites(userID, flatID);
+                return Ok("Added.");
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }
