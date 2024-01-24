@@ -97,6 +97,7 @@ namespace FlatWeb.Services
             flat.FloorNumber = updateFlat.FloorNumber;
             flat.Price = updateFlat.Price;
             flat.Description = updateFlat.Description;
+            flat.WhenUpdated = updateFlat.WhenUpdated;
 
             _dbContext.SaveChanges();
         }

@@ -18,6 +18,8 @@ namespace FlatWeb.Entities
         [Required]
         public DateTime WhenAdded { get; set; }
 
+        public DateTime? WhenUpdated { get; set; } = null;
+
         [Required]
         public int AddressID { get; set; }
         public virtual Address Address { get; set; }
