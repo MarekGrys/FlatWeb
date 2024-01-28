@@ -71,7 +71,7 @@ namespace FlatWeb.Controllers
             try
             {
                 _flatService.DeleteFlat(id);
-                return Ok();
+                return NoContent();
             }
             catch (Exception ex)
             {

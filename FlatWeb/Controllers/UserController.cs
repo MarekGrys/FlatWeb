@@ -74,7 +74,7 @@ namespace FlatWeb.Controllers
             try
             {
                 _userService.DeleteUser(id);
-                return Ok();
+                return NoContent();
             }
             catch (Exception ex)
             {
